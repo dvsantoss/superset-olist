@@ -1,0 +1,21 @@
+# Dados brutos do Kaggle (CSVs pesados nao devem ir para o Git)
+*.csv
+archive/
+
+# Variaveis de ambiente e credenciais locais
+.env
+.env.*
+
+# Arquivos temporarios de sistema e editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*~
+
+# Python cache
+__pycache__/
+*.py[cod]
+.venv/
+venv/
