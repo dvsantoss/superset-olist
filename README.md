@@ -1,8 +1,6 @@
 # Dashboard Olist E-Commerce — Apache Superset
 
-Projeto prático de validação do **Apache Superset** desenvolvido para o seminário da disciplina **Fundamentos e Técnicas em Ciência de Dados** (TADS — EAJ/UFRN, 2026.2).
-
-**Grupo:** Ana Beatriz Souto, Alan Pessoa e Davi Santos
+Projeto prático de validação do **Apache Superset**.
 
 ---
 
