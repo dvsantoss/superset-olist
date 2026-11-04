@@ -1,5 +1,9 @@
-# Dados brutos do Kaggle (CSVs pesados nao devem ir para o Git)
+# Inclui somente os quatro CSVs utilizados pelo projeto
 *.csv
+!data/olist_customers_dataset.csv
+!data/olist_products_dataset.csv
+!data/olist_orders_dataset.csv
+!data/olist_order_items_dataset.csv
 archive/
 
 # Variaveis de ambiente e credenciais locais
