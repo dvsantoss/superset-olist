@@ -84,6 +84,23 @@ echo "SUPERSET_LOAD_EXAMPLES=no" >> docker/.env-local
 TAG=6.1.0 docker compose -f docker-compose-image-tag.yml up -d
 ```
 
+No arquivo `docker-compose-image-tag.yml`, configure `shm_size: "256m"` no serviço `db`, no mesmo nível de `image` e `container_name`. Essa opção aumenta a memória compartilhada disponível para consultas do PostgreSQL e evita que o limite padrão de 64 MiB cause erros ao calcular os gráficos:
+
+```yaml
+services:
+  db:
+    shm_size: "256m"
+```
+
+Após ajustar o arquivo, aplique a configuração ao container do banco:
+
+```bash
+TAG=6.1.0 docker compose -f docker-compose-image-tag.yml up -d --no-deps db
+docker exec superset_db df -h /dev/shm
+```
+
+O resultado deve mostrar `256M`. Os dados permanecem no volume `db_home`; não é necessário importar os CSVs novamente.
+
 Acesse `http://localhost:8088` com usuário `admin` e senha `admin`.
 
 ### Passo 2 — Carregar os dados no PostgreSQL
