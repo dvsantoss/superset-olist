@@ -1,0 +1,5 @@
+services:
+  db:
+    shm_size: "256m"
+    ports:
+      - "127.0.0.1:${DATABASE_PORT:-5432}:5432"

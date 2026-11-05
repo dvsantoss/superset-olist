@@ -6,6 +6,9 @@
 !data/olist_order_items_dataset.csv
 archive/
 
+# Pacote de importação gerado a partir dos YAMLs
+/dashboard_olist_vendas.zip
+
 # Variaveis de ambiente e credenciais locais
 .env
 .env.*

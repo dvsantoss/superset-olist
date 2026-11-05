@@ -8,6 +8,7 @@ from psycopg import sql
 
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent
+# Chaves estrangeiras exigem clientes e produtos antes de pedidos e itens.
 TABLES = ("customers", "products", "orders", "order_items")
 BLOCK_SIZE = 1024 * 1024
 
@@ -16,6 +17,7 @@ def load_data(csv_dir: Path) -> tuple[int, int]:
     csv_paths = {
         table: csv_dir / f"olist_{table}_dataset.csv" for table in TABLES
     }
+    # Confere os arquivos antes de executar o SQL que substitui as tabelas.
     for path in csv_paths.values():
         if not path.is_file():
             raise FileNotFoundError(f"Arquivo CSV não encontrado: {path}")
@@ -27,6 +29,7 @@ def load_data(csv_dir: Path) -> tuple[int, int]:
         encoding="utf-8"
     )
 
+    # Confirma tudo ao concluir; em caso de erro, desfaz a transação.
     with psycopg.connect(
         host=os.environ.get("PGHOST", "localhost"),
         port=os.environ.get("PGPORT", "5432"),
@@ -41,12 +44,14 @@ def load_data(csv_dir: Path) -> tuple[int, int]:
                 print(f"Carregando {table}...", flush=True)
                 statement = sql.SQL(
                     "COPY {} FROM STDIN WITH (FORMAT CSV, HEADER TRUE)"
-                ).format(sql.Identifier(table))
+                ).format(sql.Identifier(table))  # Trata o nome da tabela como identificador SQL.
                 with path.open("rb") as source, cursor.copy(statement) as copy:
+                    # Envia blocos de 1 MiB, sem carregar o CSV inteiro na memória.
                     while block := source.read(BLOCK_SIZE):
                         copy.write(block)
 
             cursor.execute(create_view)
+            # Um pedido pode ter vários itens; DISTINCT evita contá-lo mais de uma vez.
             cursor.execute(
                 "SELECT COUNT(*), COUNT(DISTINCT pedido_id) FROM vendas"
             )
