@@ -1,1 +1,4 @@
+# Conecta o Python ao PostgreSQL; [binary] instala componentes já compilados, 
+# sem precisar compilá-los no computador.
+# >=3.2,<4 aceita versões a partir da 3.2 e anteriores à 4.
 psycopg[binary]>=3.2,<4
